@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "armo"
+version = "0.1.0"
+description = "Adaptive Runtime Meta-Orchestrator for Multi-Agent AI Systems"
+readme = "README.md"
+requires-python = ">=3.13"
+
+authors = [
+    { name = "Adityapratap Singh" }
+]
+
+dependencies = [
+    "ollama",
+    "httpx",
+    "pydantic",
+    "networkx",
+    "rich",
+    "typer",
+    "pyyaml",
+    "numpy",
+    "scipy",
+    "pandas",
+    "matplotlib",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+]
+
+[tool.setuptools.packages.find]
+include = ["armo*"]
