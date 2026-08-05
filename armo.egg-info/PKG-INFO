@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: armo
+Version: 0.1.0
+Summary: Adaptive Runtime Meta-Orchestrator for Multi-Agent AI Systems
+Author: Adityapratap Singh
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+Requires-Dist: ollama
+Requires-Dist: httpx
+Requires-Dist: pydantic
+Requires-Dist: networkx
+Requires-Dist: rich
+Requires-Dist: typer
+Requires-Dist: pyyaml
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: pandas
+Requires-Dist: matplotlib
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-asyncio; extra == "dev"
+
+﻿# ARMO
+
+Adaptive Runtime Meta-Orchestrator for Multi-Agent AI Systems.
