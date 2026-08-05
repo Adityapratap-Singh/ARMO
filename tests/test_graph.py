@@ -131,3 +131,60 @@ def test_cycle_detection_empty():
     graph = ExecutionGraph()
 
     assert graph.has_cycle() is False
+
+def test_add_dependency():
+    graph = ExecutionGraph()
+
+    a = ExecutionNode(id="A", prompt="A")
+    b = ExecutionNode(id="B", prompt="B")
+
+    graph.add_node(a)
+    graph.add_node(b)
+
+    graph.add_dependency("A", "B")
+
+    assert graph.children("A") == {"B"}
+    assert graph.parents("B") == {"A"}
+
+
+def test_indegree_outdegree():
+    graph = ExecutionGraph()
+
+    a = ExecutionNode(id="A", prompt="A")
+    b = ExecutionNode(id="B", prompt="B")
+    c = ExecutionNode(id="C", prompt="C")
+
+    graph.add_node(a)
+    graph.add_node(b)
+    graph.add_node(c)
+
+    graph.add_dependency("A", "B")
+    graph.add_dependency("A", "C")
+
+    assert graph.outdegree("A") == 2
+    assert graph.indegree("B") == 1
+    assert graph.indegree("C") == 1
+
+
+def test_ready_after_dependency_completion():
+    graph = ExecutionGraph()
+
+    a = ExecutionNode(id="A", prompt="A")
+    b = ExecutionNode(id="B", prompt="B")
+
+    graph.add_node(a)
+    graph.add_node(b)
+
+    graph.add_dependency("A", "B")
+
+    ready = graph.ready_nodes()
+
+    assert len(ready) == 1
+    assert ready[0].id == "A"
+
+    graph.mark_completed("A")
+
+    ready = graph.ready_nodes()
+
+    assert len(ready) == 1
+    assert ready[0].id == "B"

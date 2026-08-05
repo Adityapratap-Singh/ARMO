@@ -181,3 +181,45 @@ class ExecutionGraph:
             return False
         except ValueError:
             return True
+
+        # --------------------------------------------------
+    # Dependency Management
+    # --------------------------------------------------
+
+    def add_dependency(self, parent: str, child: str) -> None:
+        """
+        Create a dependency:
+            parent --> child
+        """
+
+        if parent not in self._nodes:
+            raise KeyError(f"Unknown node '{parent}'")
+
+        if child not in self._nodes:
+            raise KeyError(f"Unknown node '{child}'")
+
+        if parent == child:
+            raise ValueError("Node cannot depend on itself.")
+
+        self._edges[parent].add(child)
+        self._reverse_edges[child].add(parent)
+
+    # --------------------------------------------------
+
+    def parents(self, node_id: str) -> set[str]:
+        return set(self._reverse_edges[node_id])
+
+    # --------------------------------------------------
+
+    def children(self, node_id: str) -> set[str]:
+        return set(self._edges[node_id])
+
+    # --------------------------------------------------
+
+    def indegree(self, node_id: str) -> int:
+        return len(self._reverse_edges[node_id])
+
+    # --------------------------------------------------
+
+    def outdegree(self, node_id: str) -> int:
+        return len(self._edges[node_id])
