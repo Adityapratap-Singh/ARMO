@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, UTC
 from enum import Enum
 from typing import Any
 
@@ -61,16 +61,16 @@ class ExecutionNode:
 
     def mark_running(self) -> None:
         self.status = NodeStatus.RUNNING
-        self.started_at = datetime.utcnow()
+        self.started_at = datetime.now(UTC)
 
     def mark_completed(self, result: Any = None) -> None:
         self.status = NodeStatus.COMPLETED
-        self.finished_at = datetime.utcnow()
+        self.finished_at = datetime.now(UTC)
         self.result = result
 
     def mark_failed(self) -> None:
         self.status = NodeStatus.FAILED
-        self.finished_at = datetime.utcnow()
+        self.finished_at = datetime.now(UTC)
 
     @property
     def is_finished(self) -> bool:
