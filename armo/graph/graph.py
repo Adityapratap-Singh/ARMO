@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections import defaultdict
+from collections import defaultdict, deque
 
 from .node import ExecutionNode
 
@@ -130,3 +130,54 @@ class ExecutionGraph:
             for node in self._nodes.values()
             if node.status.name == "PENDING"
         ]
+
+        # --------------------------------------------------
+    # Graph Algorithms
+    # --------------------------------------------------
+
+    def topological_sort(self) -> list[ExecutionNode]:
+        """
+        Return nodes in topological order using Kahn's algorithm.
+        """
+
+        indegree = {
+            node_id: len(self._reverse_edges[node_id])
+            for node_id in self._nodes
+        }
+
+        queue = deque(
+            node_id
+            for node_id, degree in indegree.items()
+            if degree == 0
+        )
+
+        result = []
+
+        while queue:
+            current = queue.popleft()
+
+            result.append(self._nodes[current])
+
+            for child in self._edges[current]:
+                indegree[child] -= 1
+
+                if indegree[child] == 0:
+                    queue.append(child)
+
+        if len(result) != len(self._nodes):
+            raise ValueError("Graph contains a cycle.")
+
+        return result
+
+    # --------------------------------------------------
+
+    def has_cycle(self) -> bool:
+        """
+        Return True if the graph contains a cycle.
+        """
+
+        try:
+            self.topological_sort()
+            return False
+        except ValueError:
+            return True

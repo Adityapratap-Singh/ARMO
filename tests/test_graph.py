@@ -109,3 +109,25 @@ def test_mark_completed():
     assert graph.completed_nodes()[0].id == "A"
 
     assert len(graph.pending_nodes()) == 0
+
+
+def test_topological_sort_single():
+    graph = ExecutionGraph()
+
+    node = ExecutionNode(
+        id="A",
+        prompt="Task",
+    )
+
+    graph.add_node(node)
+
+    order = graph.topological_sort()
+
+    assert len(order) == 1
+    assert order[0].id == "A"
+
+
+def test_cycle_detection_empty():
+    graph = ExecutionGraph()
+
+    assert graph.has_cycle() is False
