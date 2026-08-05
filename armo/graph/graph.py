@@ -62,3 +62,71 @@ class ExecutionGraph:
 
     def __repr__(self) -> str:
         return f"ExecutionGraph(nodes={len(self)})"
+
+        # --------------------------------------------------
+    # Execution State
+    # --------------------------------------------------
+
+    def ready_nodes(self) -> list[ExecutionNode]:
+        """
+        Return all nodes that are ready for execution.
+
+        A node is ready when:
+        - status == PENDING
+        - all parent nodes are COMPLETED
+        """
+
+        ready: list[ExecutionNode] = []
+
+        for node_id, node in self._nodes.items():
+
+            if node.status.name != "PENDING":
+                continue
+
+            parents = self._reverse_edges[node_id]
+
+            if all(
+                self._nodes[parent].status.name == "COMPLETED"
+                for parent in parents
+            ):
+                ready.append(node)
+
+        return ready
+
+    # --------------------------------------------------
+
+    def mark_completed(self, node_id: str, result=None) -> None:
+        """
+        Mark a node as completed.
+        """
+
+        self._nodes[node_id].mark_completed(result)
+
+    # --------------------------------------------------
+
+    def mark_failed(self, node_id: str) -> None:
+        """
+        Mark a node as failed.
+        """
+
+        self._nodes[node_id].mark_failed()
+
+    # --------------------------------------------------
+
+    def completed_nodes(self) -> list[ExecutionNode]:
+
+        return [
+            node
+            for node in self._nodes.values()
+            if node.status.name == "COMPLETED"
+        ]
+
+    # --------------------------------------------------
+
+    def pending_nodes(self) -> list[ExecutionNode]:
+
+        return [
+            node
+            for node in self._nodes.values()
+            if node.status.name == "PENDING"
+        ]

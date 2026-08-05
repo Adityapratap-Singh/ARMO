@@ -1,3 +1,5 @@
+import pytest
+
 from armo.graph import ExecutionGraph, ExecutionNode, NodeStatus
 
 
@@ -71,8 +73,39 @@ def test_duplicate_node():
 
     graph.add_node(node)
 
-    try:
+    with pytest.raises(ValueError):
         graph.add_node(node)
-        assert False
-    except ValueError:
-        pass
+
+def test_ready_nodes_single():
+    graph = ExecutionGraph()
+
+    node = ExecutionNode(
+        id="A",
+        prompt="Task A",
+    )
+
+    graph.add_node(node)
+
+    ready = graph.ready_nodes()
+
+    assert len(ready) == 1
+    assert ready[0].id == "A"
+
+
+def test_mark_completed():
+    graph = ExecutionGraph()
+
+    node = ExecutionNode(
+        id="A",
+        prompt="Task",
+    )
+
+    graph.add_node(node)
+
+    graph.mark_completed("A")
+
+    assert len(graph.completed_nodes()) == 1
+
+    assert graph.completed_nodes()[0].id == "A"
+
+    assert len(graph.pending_nodes()) == 0
