@@ -1,0 +1,3 @@
+strong: qwen2.5-coder:14b
+reasoning: deepseek-r1:14b
+cheap: qwen2.5-coder:7b
