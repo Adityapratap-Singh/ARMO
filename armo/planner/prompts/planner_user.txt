@@ -1,0 +1,7 @@
+Goal:
+
+{{goal}}
+
+Create an execution plan.
+
+Return JSON only.
