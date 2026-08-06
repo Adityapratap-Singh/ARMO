@@ -87,6 +87,14 @@ class ExecutionNode:
         self.retries += 1
         self.status = NodeStatus.PENDING
 
+    @property
+    def description(self) -> str:
+        return str(self.metadata.get("description", self.prompt))
+
+    @description.setter
+    def description(self, value: str) -> None:
+        self.metadata["description"] = value
+
     def to_dict(self) -> dict:
         return {
             "id": self.id,
