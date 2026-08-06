@@ -1,18 +1,28 @@
+# Python
 __pycache__/
-*.pyc
-.pytest_cache/
+*.py[cod]
+*.pyo
+
+# Virtual environment
 .venv/
-.env
+venv/
+
+# Pytest
+.pytest_cache/
+
+# Packaging
+*.egg-info/
+dist/
+build/
+
+# Coverage
+.coverage
+htmlcov/
+
+# IDE
 .vscode/
 .idea/
 
-*.log
-*.tmp
-
-results/
-charts/
-
+# OS
 .DS_Store
 Thumbs.db
-
-armo.egg-info
