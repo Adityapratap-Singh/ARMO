@@ -12,7 +12,9 @@ class EventType(str, Enum):
     STEP_STARTED = "step_started"
     STEP_COMPLETED = "step_completed"
 
-    TOPOLOGY_SWITCHED = "topology_switched"
+    TOPOLOGY_SWITCH_REQUESTED = "topology_switch_requested"
+    TOPOLOGY_SWITCH_STARTED = "topology_switch_started"
+    TOPOLOGY_SWITCH_COMPLETED = "topology_switch_completed"
 
     TASK_COMPLETED = "task_completed"
 
